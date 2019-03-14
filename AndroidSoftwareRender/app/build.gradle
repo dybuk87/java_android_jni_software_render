@@ -1,0 +1,46 @@
+apply plugin: 'maven'
+apply plugin: 'com.android.application'
+
+repositories {
+    mavenLocal()
+}
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        applicationId "pl.duch.articles.renderlib"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+    externalNativeBuild {
+        cmake {
+            //    version "3.7.1"
+            path file('../../library/softrender/CMakeLists.txt')
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation "com.android.support:appcompat-v7:$android_lib_version"
+    testImplementation 'junit:junit:4.12'
+    implementation "pl.duch.articles:renderlib:$render_lib_version"
+
+}
